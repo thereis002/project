@@ -35,6 +35,7 @@ const AgeStep: React.FC<Props> = (props) => {
         Age:{' '}
         <input
           ref={ref}
+          id="age"
           type="number"
           value={props.age}
           onChange={_handleOnChange}

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { DataToCollect } from '../types';
 
 type Props = {
@@ -11,9 +11,6 @@ type Props = {
 };
 
 const PersonalInfoStep: React.FC<Props> = (props) => {
-  const firstNameRef = useRef<HTMLInputElement>();
-  const lastNameRef = useRef<HTMLInputElement>();
-
   const _handleOnChange =
     (key: keyof DataToCollect) =>
     ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +34,6 @@ const PersonalInfoStep: React.FC<Props> = (props) => {
           First Name:{' '}
           <input
             id="firstName"
-            ref={firstNameRef}
             type="text"
             value={props.firstName}
             onChange={_handleOnChange('firstName')}
@@ -49,7 +45,6 @@ const PersonalInfoStep: React.FC<Props> = (props) => {
           Last Name:{' '}
           <input
             id="lastName"
-            ref={lastNameRef}
             type="text"
             value={props.lastName}
             onChange={_handleOnChange('lastName')}

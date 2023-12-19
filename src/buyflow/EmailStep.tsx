@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
-import { useNativeValidation } from '../hooks/useNativeValidation';
+import React from 'react';
 import { DataToCollect } from '../types';
+import { isValidEmail } from '../utils/isValidEmail';
 
 type Props = {
   email: string;
@@ -11,9 +11,7 @@ type Props = {
 };
 
 const EmailStep: React.FC<Props> = (props) => {
-  const ref = useRef<HTMLInputElement>();
-
-  const { isValid } = useNativeValidation(ref);
+  const isValid = isValidEmail(props.email);
 
   const _handleOnChange = ({
     target: { value },
@@ -22,7 +20,7 @@ const EmailStep: React.FC<Props> = (props) => {
   };
 
   const _onClickNext = () => {
-    if (!isValid()) {
+    if (!isValid) {
       return;
     }
 
@@ -34,14 +32,14 @@ const EmailStep: React.FC<Props> = (props) => {
       <div>
         Email:{' '}
         <input
-          ref={ref}
+          id="email"
           type="email"
           value={props.email}
           onChange={_handleOnChange}
         />
       </div>
 
-      <button disabled={!isValid()} onClick={_onClickNext}>
+      <button disabled={!isValid} onClick={_onClickNext}>
         Next
       </button>
     </>
