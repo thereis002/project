@@ -5,7 +5,7 @@ import EmailStep from './EmailStep';
 import SummaryStep from './SummaryStep';
 import PersonalInfoStep from './PersonalInfo';
 
-import { Product, Step } from '../types';
+import { DataToCollect, Product, Step } from '../types';
 import { Link } from 'react-router-dom';
 
 type BuyflowProps = {
@@ -21,7 +21,7 @@ const PRODUCT_IDS_TO_NAMES: { [key in Product]: string } = {
 const Buyflow: React.FC<BuyflowProps> = ({ productId, steps }) => {
   const [currentStep, setStep] = useState<number>(0);
 
-  const [collectedData, updateData] = useState({
+  const [collectedData, updateData] = useState<DataToCollect>({
     email: '',
     firstName: '',
     lastName: '',

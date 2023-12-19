@@ -1,9 +1,12 @@
 import React, { useRef } from 'react';
 import { useNativeValidation } from '../hooks/useNativeValidation';
+import { DataToCollect } from '../types';
 
 type Props = {
   age: number;
-  handleOnChange: (field: string) => (value: string | number) => void;
+  handleOnChange: (
+    key: keyof DataToCollect
+  ) => (value: string | number) => void;
   onNextClick: () => void;
 };
 

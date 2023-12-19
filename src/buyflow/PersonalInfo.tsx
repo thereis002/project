@@ -1,9 +1,12 @@
 import React, { useRef } from 'react';
+import { DataToCollect } from '../types';
 
 type Props = {
   firstName: string;
   lastName: string;
-  handleOnChange: (field: string) => (value: string | number) => void;
+  handleOnChange: (
+    key: keyof DataToCollect
+  ) => (value: string | number) => void;
   onNextClick: () => void;
 };
 
@@ -12,9 +15,9 @@ const PersonalInfoStep: React.FC<Props> = (props) => {
   const lastNameRef = useRef<HTMLInputElement>();
 
   const _handleOnChange =
-    (field: string) =>
+    (key: keyof DataToCollect) =>
     ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
-      props.handleOnChange(field)(value);
+      props.handleOnChange(key)(value);
     };
 
   const isValid = () => props.firstName.length > 2 && props.lastName.length > 2;

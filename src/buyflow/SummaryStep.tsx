@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { Product } from '../types';
+import { DataToCollect, Product } from '../types';
 import { Link } from 'react-router-dom';
 
 type Props = {
-  collectedData: {};
+  collectedData: DataToCollect;
   productType: Product;
 };
 
 const SummaryStep: React.FC<Props> = (props) => {
-  const formatKey = (key: string) => {
+  const formatKey = (key: keyof DataToCollect) => {
     switch (key) {
       case 'firstName':
         return 'First Name';
@@ -25,7 +25,7 @@ const SummaryStep: React.FC<Props> = (props) => {
   };
 
   const getCollectedData = () =>
-    Object.keys(props.collectedData).map((key, index) => {
+    Object.keys(props.collectedData).map((key: keyof DataToCollect, index) => {
       return (
         <div key={`${key}_${index}`}>
           <b>{formatKey(key)}</b>: {props.collectedData[key]}
