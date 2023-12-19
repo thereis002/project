@@ -1,23 +1,47 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
 
-interface SummaryStepProps {
-  collectedData: {
-    email: string
-    age: number
-  }
-}
+import { Product } from '../types';
+import { Link } from 'react-router-dom';
 
-const SummaryStep: React.FC<SummaryStepProps> = (props) => {
+type Props = {
+  collectedData: {};
+  productType: Product;
+};
+
+const SummaryStep: React.FC<Props> = (props) => {
+  const formatKey = (key: string) => {
+    switch (key) {
+      case 'firstName':
+        return 'First Name';
+      case 'lastName':
+        return 'Last Name';
+      case 'email':
+        return 'E-mail';
+      case 'age':
+        return 'Age';
+      default:
+        return key;
+    }
+  };
+
+  const getCollectedData = () =>
+    Object.keys(props.collectedData).map((key, index) => {
+      return (
+        <div key={`${key}_${index}`}>
+          <b>{formatKey(key)}</b>: {props.collectedData[key]}
+        </div>
+      );
+    });
+
   return (
     <>
-      <div>Email: {props.collectedData.email}</div>
-      <div>Age: {props.collectedData.age}</div>
+      {getCollectedData()}
+
       <div>
-        <Link to="/purchased=dev_ins">Purchase</Link>
+        <Link to={`/purchased=${props.productType}`}>Purchase</Link>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SummaryStep
+export default SummaryStep;

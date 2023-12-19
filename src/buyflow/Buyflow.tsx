@@ -1,44 +1,87 @@
 import React, { useState } from 'react';
+
 import AgeStep from './AgeStep';
 import EmailStep from './EmailStep';
 import SummaryStep from './SummaryStep';
+import PersonalInfoStep from './PersonalInfo';
 
-interface BuyflowProps {
-  productId: ProductIds;
-}
+import { Product, Step } from '../types';
+import { Link } from 'react-router-dom';
 
-export enum ProductIds {
-  devIns = 'dev_ins',
-}
-
-const PRODUCT_IDS_TO_NAMES = {
-  [ProductIds.devIns]: 'Developer Insurance',
+type BuyflowProps = {
+  productId: Product;
+  steps: Step[];
 };
 
-const Buyflow: React.FC<BuyflowProps> = (props) => {
-  const [currentStep, setStep] = useState('email');
+const PRODUCT_IDS_TO_NAMES: { [key in Product]: string } = {
+  [Product.DEV_INSURANCE]: 'Developer Insurance',
+  [Product.DESIGNER_INSURANCE]: 'Designer Insurance',
+};
+
+const Buyflow: React.FC<BuyflowProps> = ({ productId, steps }) => {
+  const [currentStep, setStep] = useState<number>(0);
 
   const [collectedData, updateData] = useState({
     email: '',
+    firstName: '',
+    lastName: '',
     age: 0,
   });
 
-  const getStepCallback = (nextStep: string) => (field: string, value: any) => {
+  const goToNextStep = () => {
+    const nextStep = currentStep + 1;
+    const isNextStepValid = nextStep <= steps.length - 1;
+
+    setStep(isNextStepValid ? nextStep : -1); // -1 fallback to summary
+  };
+
+  const handleOnChange = (field: string) => (value: string | number) =>
     updateData({ ...collectedData, [field]: value });
-    setStep(nextStep);
+
+  const renderStep = (stepNumber: number) => {
+    const step = steps[stepNumber];
+
+    switch (step) {
+      case Step.PERSONAL_INFO:
+        return (
+          <PersonalInfoStep
+            firstName={collectedData.firstName}
+            lastName={collectedData.lastName}
+            handleOnChange={handleOnChange}
+            onNextClick={goToNextStep}
+          />
+        );
+      case Step.EMAIL:
+        return (
+          <EmailStep
+            email={collectedData['email']}
+            handleOnChange={handleOnChange}
+            onNextClick={goToNextStep}
+          />
+        );
+      case Step.AGE:
+        return (
+          <AgeStep
+            age={collectedData.age}
+            handleOnChange={handleOnChange}
+            onNextClick={goToNextStep}
+          />
+        );
+      default:
+        return (
+          <SummaryStep productType={productId} collectedData={collectedData} />
+        );
+    }
   };
 
   return (
-    <>
-      <h4>Buying {PRODUCT_IDS_TO_NAMES[props.productId]}</h4>
-      {(currentStep === 'email' && <EmailStep cb={getStepCallback('age')} />) ||
-        (currentStep === 'age' && (
-          <AgeStep cb={getStepCallback('summary')} />
-        )) ||
-        (currentStep === 'summary' && (
-          <SummaryStep collectedData={collectedData} />
-        ))}
-    </>
+    <div>
+      <h4>Buying {PRODUCT_IDS_TO_NAMES[productId]}</h4>
+
+      <div>{renderStep(currentStep)}</div>
+
+      <Link to="/">Cancel</Link>
+    </div>
   );
 };
 
