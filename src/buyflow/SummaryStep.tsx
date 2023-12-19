@@ -8,6 +8,8 @@ type Props = {
   productType: Product;
 };
 
+const isEmpty = (value: string) => !String(value).length;
+
 const SummaryStep: React.FC<Props> = (props) => {
   const formatKey = (key: keyof DataToCollect) => {
     switch (key) {
@@ -25,13 +27,19 @@ const SummaryStep: React.FC<Props> = (props) => {
   };
 
   const getCollectedData = () =>
-    Object.keys(props.collectedData).map((key: keyof DataToCollect, index) => {
-      return (
-        <div key={`${key}_${index}`}>
-          <b>{formatKey(key)}</b>: {props.collectedData[key]}
-        </div>
-      );
-    });
+    Object.keys(props.collectedData)
+      .filter(
+        (key) =>
+          props.collectedData[key] !== undefined &&
+          !isEmpty(props.collectedData[key])
+      )
+      .map((key: keyof DataToCollect, index) => {
+        return (
+          <div key={`${key}_${index}`}>
+            <b>{formatKey(key)}</b>: {props.collectedData[key]}
+          </div>
+        );
+      });
 
   return (
     <>

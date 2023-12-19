@@ -22,9 +22,9 @@ const Buyflow: React.FC<BuyflowProps> = ({ productId, steps }) => {
   const [currentStep, setStep] = useState<number>(0);
 
   const [collectedData, updateData] = useState<DataToCollect>({
-    email: '',
     firstName: '',
     lastName: '',
+    email: '',
     age: 0,
   });
 
@@ -54,7 +54,7 @@ const Buyflow: React.FC<BuyflowProps> = ({ productId, steps }) => {
       case Step.EMAIL:
         return (
           <EmailStep
-            email={collectedData['email']}
+            email={collectedData.email}
             handleOnChange={handleOnChange}
             onNextClick={goToNextStep}
           />
