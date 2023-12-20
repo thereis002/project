@@ -2,8 +2,8 @@ import React from 'react';
 import { DataToCollect } from '../types';
 
 type Props = {
-  firstName: string;
-  lastName: string;
+  firstName: DataToCollect['firstName'];
+  lastName: DataToCollect['lastName'];
   handleOnChange: (
     key: keyof DataToCollect
   ) => (value: string | number) => void;
@@ -38,6 +38,7 @@ const PersonalInfoStep: React.FC<Props> = (props) => {
             value={props.firstName}
             onChange={_handleOnChange('firstName')}
             minLength={2}
+            data-testid="FirstNameInput"
           />
         </div>
 
@@ -49,6 +50,7 @@ const PersonalInfoStep: React.FC<Props> = (props) => {
             value={props.lastName}
             onChange={_handleOnChange('lastName')}
             minLength={2}
+            data-testid="LastNameInput"
           />
         </div>
       </div>
