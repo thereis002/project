@@ -46,7 +46,12 @@ const SummaryStep: React.FC<Props> = (props) => {
       {getCollectedData()}
 
       <div>
-        <Link to={`/purchased?id=${props.productType}`}>Purchase</Link>
+        <Link
+          to={`/purchased?id=${props.productType}`}
+          data-testid={'PurchaseAnchor'}
+        >
+          Purchase
+        </Link>
       </div>
     </>
   );
