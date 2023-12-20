@@ -34,14 +34,14 @@ describe('EmailStep', () => {
     expect(email).toBe('test@example.com');
   });
 
-  test('should enable the next button with a valid age', async () => {
+  test('should enable the next button with a valid email', async () => {
     render(<EmailStep email={'test@example.com'} />);
 
     const nextElement = screen.getByText(/Next/i);
     expect(nextElement).toBeEnabled();
   });
 
-  test('should not enable the next button with a invalid age', async () => {
+  test('should not enable the next button with a invalid email', async () => {
     render(<EmailStep email={'invalidemail'} />);
 
     const nextElement = screen.getByText(/Next/i);
