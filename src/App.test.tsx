@@ -1,9 +1,15 @@
-import React from 'react'
-import { render, screen } from '@testing-library/react'
-import App from './App'
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />)
-  const linkElement = screen.getByText(/Get started/i)
-  expect(linkElement).toBeInTheDocument()
-})
+describe('App', () => {
+  test('should render', () => {
+    render(<App />);
+
+    const welcomeElement = screen.getByText(/Welcome/i);
+    expect(welcomeElement).toBeInTheDocument();
+
+    // To have 2 insurances
+    expect(screen.getAllByText(/Get started!/i)).toHaveLength(2);
+  });
+});

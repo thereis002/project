@@ -1,9 +1,8 @@
 import React, { useRef } from 'react';
-import { useNativeValidation } from '../hooks/useNativeValidation';
 import { DataToCollect } from '../types';
 
 type Props = {
-  age: number;
+  age: DataToCollect['age'];
   handleOnChange: (
     key: keyof DataToCollect
   ) => (value: string | number) => void;
@@ -13,7 +12,12 @@ type Props = {
 const AgeStep: React.FC<Props> = (props) => {
   const ref = useRef<HTMLInputElement>();
 
-  const { isValid } = useNativeValidation(ref);
+  // const { isValid } = useNativeValidation(ref);
+
+  const minAge = 18;
+  const maxAge = 99;
+
+  const isValid = props.age >= minAge && props.age <= maxAge;
 
   const _handleOnChange = ({
     target: { value },
@@ -22,7 +26,7 @@ const AgeStep: React.FC<Props> = (props) => {
   };
 
   const _onClickNext = () => {
-    if (!isValid()) {
+    if (!isValid) {
       return;
     }
 
@@ -39,12 +43,13 @@ const AgeStep: React.FC<Props> = (props) => {
           type="number"
           value={props.age}
           onChange={_handleOnChange}
-          min={1}
-          max={99}
+          min={minAge}
+          max={maxAge}
+          data-testid="AgeInput"
         />
       </div>
 
-      <button disabled={!isValid()} onClick={_onClickNext}>
+      <button disabled={!isValid} onClick={_onClickNext}>
         Next
       </button>
     </>
