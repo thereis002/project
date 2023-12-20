@@ -26,9 +26,9 @@ describe('EmailStep', () => {
     render(<EmailStep email={email} handleOnChange={handleOnChangeMock} />);
 
     const user = userEvent.setup();
-    const ageInput = screen.getByTestId('EmailInput');
+    const emailInput = screen.getByTestId('EmailInput');
 
-    await user.type(ageInput, 'test@example.com');
+    await user.type(emailInput, 'test@example.com');
 
     expect(handleOnChangeMock).toHaveBeenCalledWith('email');
     expect(email).toBe('test@example.com');
