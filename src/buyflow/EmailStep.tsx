@@ -3,7 +3,7 @@ import { DataToCollect } from '../types';
 import { isValidEmail } from '../utils/isValidEmail';
 
 type Props = {
-  email: string;
+  email: DataToCollect['email'];
   handleOnChange: (
     key: keyof DataToCollect
   ) => (value: string | number) => void;
@@ -36,6 +36,7 @@ const EmailStep: React.FC<Props> = (props) => {
           type="email"
           value={props.email}
           onChange={_handleOnChange}
+          data-testid={'EmailInput'}
         />
       </div>
 
